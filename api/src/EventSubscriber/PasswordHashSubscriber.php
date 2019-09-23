@@ -53,12 +53,13 @@ class PasswordHashSubscriber implements EventSubscriberInterface
         $user = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
 
-        if (!$user instanceof Utilisateur || Request::METHOD_POST !== $method){
+        if (!$user instanceof Utilisateur || !in_array($method, [Request::METHOD_POST, Request::METHOD_PUT])){
             return;
         }
 
         // method pour hasher le password
 
         $user->setPassword($this->passwordEncoder->encodePassword($user,$user->getPassword()));
+        $user->setRoles(['ROLE_USER']);
     }
 }

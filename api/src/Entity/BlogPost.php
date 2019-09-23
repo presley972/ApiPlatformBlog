@@ -6,11 +6,17 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
- *     itemOperations={"get"},
+ *     itemOperations={
+ *     "get",
+ *     "put"={
+"access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object.getAuthor() == user"
+ *     }
+ *     },
  *     collectionOperations={
  *          "get",
  *          "post"={
@@ -20,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * )
  * @ORM\Entity(repositoryClass="App\Repository\BlogPostRepository")
  */
-class BlogPost
+class BlogPost implements AuthoredEntityInterface, PublishedDateEntityInterface
 {
     /**
      * @ORM\Id()
@@ -91,7 +97,7 @@ class BlogPost
         return $this->published;
     }
 
-    public function setPublished(\DateTimeInterface $published): self
+    public function setPublished(\DateTimeInterface $published): PublishedDateEntityInterface
     {
         $this->published = $published;
 
@@ -127,7 +133,10 @@ class BlogPost
         return $this->author;
     }
 
-    public function setAuthor(?Utilisateur $author): self
+    /**
+     * @param UserInterface $author
+     */
+    public function setAuthor(UserInterface $author): AuthoredEntityInterface
     {
         $this->author = $author;
 

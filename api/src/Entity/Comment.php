@@ -4,15 +4,26 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ApiResource(
- *     itemOperations={"get"},
- *     collectionOperations={"get"}
+@ApiResource(
+ *     itemOperations={
+ *     "get",
+ *     "put"={
+ *       "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object.getAuthor() == user"
+ *     }
+ *     },
+ *     collectionOperations={
+ *          "get",
+ *          "post"={
+ *          "access_control"="is_granted('IS_AUTHENTICATED_FULLY')"
+ *     }
+ * }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
  */
-class Comment
+class Comment implements AuthoredEntityInterface, PublishedDateEntityInterface
 {
     /**
      * @ORM\Id()
@@ -65,7 +76,7 @@ class Comment
         return $this->published;
     }
 
-    public function setPublished(\DateTimeInterface $published): self
+    public function setPublished(\DateTimeInterface $published): PublishedDateEntityInterface
     {
         $this->published = $published;
 
@@ -77,7 +88,10 @@ class Comment
         return $this->author;
     }
 
-    public function setAuthor(?Utilisateur $author): self
+    /**
+     * @param UserInterface $author
+     */
+    public function setAuthor(UserInterface $author): AuthoredEntityInterface
     {
         $this->author = $author;
 

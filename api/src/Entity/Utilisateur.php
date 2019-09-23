@@ -13,15 +13,40 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
+ *     normalizationContext={"groups" = {"get"}},
  *     itemOperations={
  *     "get"={
- *          "access_control"="is_granted('IS_AUTHENTICATED_FULLY')"
+ *          "access_control"="is_granted('IS_AUTHENTICATED_FULLY')",
+ *          "normalization_context"={
+ *              "groups" = {"get"}
+ *          }
+ *     },
+ *     "put"={
+        "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user",
+ *          "denormalization_context"={
+ *          "groups" = {"put"}
+ *          },
+ *          "normalization_context"={
+ *              "groups" = {"get"}
+ *          }
  *     }
- * },
- *     collectionOperations={"post"},
- *     normalizationContext={
- *          "groups" = {"read"}
+ *  },
+ *     collectionOperations={
+ *     "post"={
+            "denormalization_context"={
+ *          "groups" = {"post"}
+ *          },
+ *          "normalization_context"={
+ *              "groups" = {"get"}
+ *          }
+ *      },
+ *     "get"={
+            "normalization_context"={
+ *              "groups" = {"get"}
+ *          }
  *     }
+ *  },
+ *
  * )
  * @ORM\Entity(repositoryClass="App\Repository\UtilisateurRepository")
  * @UniqueEntity("email")
@@ -32,12 +57,13 @@ class Utilisateur implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"read"})
+     * @Groups({"get"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"get", "post","put"})
      * @Assert\NotBlank()
      * @Assert\Email()
      */
@@ -51,6 +77,7 @@ class Utilisateur implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups({"put","post"})
      * @Assert\NotBlank()
      * @Assert\Regex(
      *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
@@ -61,6 +88,7 @@ class Utilisateur implements UserInterface
 
     /**
      * @Assert\NotBlank()
+     * @Groups({"put","post"})
      * @Assert\Expression(
      *     "this.getPassword() === this.getRetypedPassword()",
      *     message="Passwords doesn't match"
@@ -70,27 +98,27 @@ class Utilisateur implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read"})
+     * @Groups({"get", "post", "put"})
      * @Assert\NotBlank()
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read"})
+     * @Groups({"get","post","put"})
      * @Assert\NotBlank()
      */
     private $name;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\BlogPost", mappedBy="author")
-     * @Groups({"read"})
+     * @Groups({"get"})
      */
     private $blogPosts;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="author")
-     * @Groups({"read"})
+     * @Groups({"get"})
      */
     private $comments;
 
