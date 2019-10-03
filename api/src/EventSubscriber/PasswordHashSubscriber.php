@@ -60,6 +60,5 @@ class PasswordHashSubscriber implements EventSubscriberInterface
         // method pour hasher le password
 
         $user->setPassword($this->passwordEncoder->encodePassword($user,$user->getPassword()));
-        $user->setRoles(['ROLE_USER']);
     }
 }

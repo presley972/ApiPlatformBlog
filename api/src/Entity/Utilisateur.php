@@ -53,11 +53,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Utilisateur implements UserInterface
 {
+    const ROLE_COMMENTATOR = 'ROLE_COMMENTATOR';
+    const ROLE_WRITER = 'ROLE_WRITER';
+    const ROLE_EDITOR = 'ROLE_EDITOR';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
+    const ROLE_COACH = 'ROLE_COACH';
+
+    const DEFAULT_ROLES = [self::ROLE_COMMENTATOR,'ROLE_USER'];
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"get"})
+     * @Groups({"get", "get-comment-with-author"})
      */
     private $id;
 
@@ -70,10 +78,10 @@ class Utilisateur implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="simple_array", length=200)
+     * @Groups({"post"})
      */
-    private $roles = [];
-
+    private $roles;
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
@@ -98,14 +106,14 @@ class Utilisateur implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"get", "post", "put"})
+     * @Groups({"get", "post", "put","get-comment-with-author", "get-blog-post-with-author"})
      * @Assert\NotBlank()
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"get","post","put"})
+     * @Groups({"get","post","put", "get-comment-with-author", "get-blog-post-with-author"})
      * @Assert\NotBlank()
      */
     private $name;
@@ -126,6 +134,7 @@ class Utilisateur implements UserInterface
     {
         $this->blogPosts = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->roles = self::DEFAULT_ROLES;
     }
 
     public function getId(): ?int
@@ -160,11 +169,12 @@ class Utilisateur implements UserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
+        //$roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        //$roles[] = 'ROLE_USER';
 
-        return array_unique($roles);
+        //return array_unique($roles);
+        return  $this->roles;
     }
 
     public function setRoles(array $roles): self
