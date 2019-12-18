@@ -71,7 +71,7 @@ class Utilisateur implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"get", "post","put"})
+     * @Groups({ "post","put","get-admin"})
      * @Assert\NotBlank()
      * @Assert\Email()
      */
@@ -79,7 +79,7 @@ class Utilisateur implements UserInterface
 
     /**
      * @ORM\Column(type="simple_array", length=200)
-     * @Groups({"post"})
+     * @Groups({"post","get-admin"})
      */
     private $roles;
     /**
@@ -161,7 +161,7 @@ class Utilisateur implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string) $this->username;
     }
 
     /**
