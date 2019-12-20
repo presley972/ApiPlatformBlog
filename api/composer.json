@@ -15,7 +15,9 @@
         "symfony/framework-bundle": "4.2.*",
         "symfony/maker-bundle": "^1.11",
         "symfony/mercure-bundle": "*",
-        "symfony/yaml": "4.2.*"
+        "symfony/swiftmailer-bundle": "^3.2",
+        "symfony/yaml": "4.2.*",
+        "vich/uploader-bundle": "^1.8"
     },
     "require-dev": {
         "api-platform/schema-generator": "^2.1",

@@ -97,6 +97,19 @@
       <path value="$PROJECT_DIR$/api/vendor/namshi/jose" />
       <path value="$PROJECT_DIR$/api/vendor/lexik/jwt-authentication-bundle" />
       <path value="$PROJECT_DIR$/api/vendor/lcobucci/jwt" />
+      <path value="$PROJECT_DIR$/api/vendor/symfony/http-client" />
+      <path value="$PROJECT_DIR$/api/vendor/symfony/polyfill-php73" />
+      <path value="$PROJECT_DIR$/api/vendor/swiftmailer/swiftmailer" />
+      <path value="$PROJECT_DIR$/api/vendor/egulias/email-validator" />
+      <path value="$PROJECT_DIR$/api/vendor/symfony/polyfill-intl-idn" />
+      <path value="$PROJECT_DIR$/api/vendor/symfony/swiftmailer-bundle" />
+      <path value="$PROJECT_DIR$/api/vendor/symfony/polyfill-intl-icu" />
+      <path value="$PROJECT_DIR$/api/vendor/symfony/templating" />
+      <path value="$PROJECT_DIR$/api/vendor/symfony/intl" />
+      <path value="$PROJECT_DIR$/api/vendor/symfony/form" />
+      <path value="$PROJECT_DIR$/api/vendor/behat/transliterator" />
+      <path value="$PROJECT_DIR$/api/vendor/vich/uploader-bundle" />
+      <path value="$PROJECT_DIR$/api/vendor/jms/metadata" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -119,28 +120,30 @@ class Utilisateur implements UserInterface
 
     /**
      * @Groups({"put-reset-password"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"put-reset-password"})
      * @Assert\Regex(
      *     pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
-     *     message="Password must be seven characteres long and contain at least one digit, one upper case"
+     *     message="Password must be seven characteres long and contain at least one digit, one upper case",
+     *     groups={"put-reset-password"}
      * )
      */
     private $newPassword;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"put-reset-password"})
      * @Groups({"put-reset-password"})
      * @Assert\Expression(
      *     "this.getNewPassword() === this.getNewRetypedPassword()",
-     *     message="Passwords doesn't match"
+     *     message="Passwords doesn't match",
+     *     groups={"put-reset-password"}
      * )
      */
     private $newRetypedPassword;
 
     /**
      * @Groups({"put-reset-password"})
-     * @Assert\NotBlank()
-     * @UserPassword()
+     * @Assert\NotBlank(groups={"put-reset-password"})
+     * @UserPassword(groups={"put-reset-password"})
      */
     private $oldPassword;
 
@@ -175,11 +178,30 @@ class Utilisateur implements UserInterface
      */
     private $passwordChangeDate;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $enabled;
+
+    /**
+     * @ORM\Column(type="string", length=40, nullable=true)
+     */
+    private $confirmationToken;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Image")
+     * @ApiSubresource()
+     * @Groups({"post", "get", "put"})
+     */
+    private $profilePicture;
+
     public function __construct()
     {
         $this->blogPosts = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->roles = self::DEFAULT_ROLES;
+        $this->enabled = false;
+        $this->confirmationToken = null;
     }
 
     public function getId(): ?int
@@ -396,7 +418,36 @@ class Utilisateur implements UserInterface
         $this->passwordChangeDate = $passwordChangeDate;
     }
 
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
 
+    public function setEnabled($enabled): void
+    {
+        $this->enabled = $enabled;
+    }
+
+    public function getConfirmationToken()
+    {
+        return $this->confirmationToken;
+    }
+
+    public function setConfirmationToken($confirmationToken): void
+    {
+        $this->confirmationToken = $confirmationToken;
+    }
+
+    public function getProfilePicture()
+    {
+        return $this->profilePicture;
+    }
+
+
+    public function setProfilePicture($profilePicture): void
+    {
+        $this->profilePicture = $profilePicture;
+    }
 
 
 }

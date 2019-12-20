@@ -28,11 +28,13 @@ security:
                 authenticators:
 #                    - lexik_jwt_authentication.jwt_token_authenticator
                     - App\Security\TokenAuthenticator
+            user_checker: App\Security\UserEnabledChecker
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/authentication_token, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/confirm-user, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/utilisateurs, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY}
 

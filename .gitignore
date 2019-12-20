@@ -2,3 +2,5 @@
 /docker-compose.override.yml
 
 /vendor/
+/api/.env.dist
+/api/.env
