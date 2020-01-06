@@ -110,6 +110,9 @@
       <path value="$PROJECT_DIR$/api/vendor/behat/transliterator" />
       <path value="$PROJECT_DIR$/api/vendor/vich/uploader-bundle" />
       <path value="$PROJECT_DIR$/api/vendor/jms/metadata" />
+      <path value="$PROJECT_DIR$/api/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/api/vendor/symfony/monolog-bundle" />
+      <path value="$PROJECT_DIR$/api/vendor/symfony/monolog-bridge" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />

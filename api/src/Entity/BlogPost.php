@@ -2,18 +2,21 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
-use App\Form\ImageType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 
 /**
  * @ApiResource(
+ *     attributes={"order"={"published":"DESC"}},
  *     itemOperations={
  *     "get"={
  *     "normalization_context"={
@@ -36,6 +39,22 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\BlogPostRepository")
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *          "id": "exact",
+ *          "title": "partial",
+ *          "content": "partial",
+ *          "author": "exact",
+ *          "author.name": "partial"
+ *     }
+ * )
+ * @ApiFilter(
+ *     DateFilter::class,
+ *     properties={
+ *          "published"
+ *     }
+ * )
  */
 class BlogPost implements AuthoredEntityInterface, PublishedDateEntityInterface
 {

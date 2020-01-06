@@ -10,8 +10,19 @@ parameters:
 api_platform:
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
-    title: Hello API Platform
+    title: Impulse For Life
     version: 1.0.0
+    eager_loading:
+        enabled: true
+    collection:
+        pagination:
+            page_parameter_name: _page
+            partial: true
+    exception_to_status:
+        App\Exception\EmptyBodyException: 400
+        App\Exception\InvalidConfirmationTokenException: 404
+        
+            
     # Varnish integration, remove if unwanted
     http_cache:
         invalidation:
