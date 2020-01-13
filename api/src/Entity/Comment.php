@@ -10,7 +10,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
- *     attributes={"order"={"published":"DESC"}},
+ *     attributes={
+ *         "order"={"published": "DESC"},
+ *         "pagination_client_enabled"=true,
+ *         "pagination_client_items_per_page"=true
+ *     },
  *     itemOperations={
  *          "get",
  *          "put"={
@@ -20,7 +24,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     collectionOperations={
  *          "get",
  *          "post"={
- *                  "access_control"="is_granted('ROLE_COMMENTATOR')"
+ *                  "access_control"="is_granted('ROLE_COMMENTATOR')",
+ *                  "normalization_context"={
+ *                      "groups"={"get-comment-with-author"}
+ *                  }
  *          }
  *     },
  *     denormalizationContext={

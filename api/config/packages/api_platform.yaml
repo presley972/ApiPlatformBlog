@@ -17,7 +17,13 @@ api_platform:
     collection:
         pagination:
             page_parameter_name: _page
-            partial: true
+            items_per_page: 10
+            client_items_per_page: true # Disabled by default
+            items_per_page_parameter_name: itemsPerPage
+            maximum_items_per_page: 20
+            partial: false
+            client_partial: true
+            partial_parameter_name: 'partial'
     exception_to_status:
         App\Exception\EmptyBodyException: 400
         App\Exception\InvalidConfirmationTokenException: 404

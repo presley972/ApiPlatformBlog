@@ -14,6 +14,10 @@ use App\Controller\UploadImageAction;
  * @ORM\Entity()
  * @Vich\Uploadable()
  * @ApiResource(
+ *     attributes={
+ *         "order"={"id": "ASC"},
+ *         "formats"={"json", "jsonld", "form"={"multipart/form-data"}}
+ *     },
  *     collectionOperations={
  *          "get",
  *          "post"={
@@ -37,12 +41,14 @@ class Image
     /**
      * @Vich\UploadableField(mapping="images", fileNameProperty="url")
      * @Assert\NotNull()
+     * @Groups({"get"})
+
      */
     private $file;
 
     /**
      * @ORM\Column(nullable=true)
-     * @Groups({"get-blog-post-with-author"})
+     * @Groups({"get-blog-post-with-author", "get"})
      */
     private $url;
 
@@ -82,6 +88,10 @@ class Image
         $this->url = $url;
     }
 
+    public function __toString()
+    {
+        return $this->id . ':' . $this->url;
+    }
 
 
 }

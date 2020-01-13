@@ -3,5 +3,5 @@
 </h3>
 
 <p>
-    Please confirm your e-mail address by clicking <a href="{{ url('default_confirm_token', {'token': user.getConfirmationToken()}) }}">this</a> link.
+    Please confirm your e-mail address by clicking <a href="{{ url('default_confirm_token', {'token': user.getConfirmationToken()}) }}">this</a> link or , type the code in the field: <b>{{ user.getConfirmationToken() }}</b>
 </p>

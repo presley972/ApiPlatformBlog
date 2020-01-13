@@ -31,7 +31,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  *     collectionOperations={
  *          "get",
  *          "post"={
- *          "access_control"="is_granted('ROLE_WRITER')"
+ *          "access_control"="is_granted('ROLE_WRITER') or is_granted('ROLE_USER')"
  *     }
  * },
  *     denormalizationContext={
